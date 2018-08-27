@@ -266,16 +266,17 @@ func (as *apiService) TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeE
 					return
 				}
 				rawAggTrade := struct {
-					Type         string  `json:"e"`
-					Time         float64 `json:"E"`
-					Symbol       string  `json:"s"`
-					TradeID      int     `json:"a"`
-					Price        string  `json:"p"`
-					Quantity     string  `json:"q"`
-					FirstTradeID int     `json:"f"`
-					LastTradeID  int     `json:"l"`
-					Timestamp    float64 `json:"T"`
-					IsMaker      bool    `json:"m"`
+                                    Type         string  `json:"e"`
+                                    Time         float64 `json:"E"`
+                                    Symbol       string  `json:"s"`
+                                    TradeID      int     `json:"a"`
+                                    Price        string  `json:"p"`
+                                    Quantity     string  `json:"q"`
+                                    FirstTradeID int     `json:"f"`
+                                    LastTradeID  int     `json:"l"`
+                                    Timestamp    float64 `json:"T"`
+                                    IsMaker      bool    `json:"m"`
+                                    Ignore       bool    `json:"M"`
 				}{}
 				if err := json.Unmarshal(message, &rawAggTrade); err != nil {
 					level.Error(as.Logger).Log("wsUnmarshal", err, "body", string(message))
