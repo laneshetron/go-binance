@@ -127,13 +127,13 @@ type SymbolInfo struct {
 
 type Filter struct {
     FilterType       string  `json:"filterType"`
-    MinPrice         float64 `json:"minPrice"`
-    MaxPrice         float64 `json:"maxPrice"`
-    TickSize         float64 `json:"tickSize"`
-    MinQty           float64 `json:"minQty"`
-    MaxQty           float64 `json:"maxQty"`
-    StepSize         float64 `json:"stepSize"`
-    MinNotional      float64 `json:"minNotional"`
+    MinPrice         string  `json:"minPrice"`
+    MaxPrice         string  `json:"maxPrice"`
+    TickSize         string  `json:"tickSize"`
+    MinQty           string  `json:"minQty"`
+    MaxQty           string  `json:"maxQty"`
+    StepSize         string  `json:"stepSize"`
+    MinNotional      string  `json:"minNotional"`
     ApplyToMarket    bool    `json:"applyToMarket"`
     AvgPriceMins     int     `json:"avgPriceMins"`
     Limit            int     `json:"limit"`

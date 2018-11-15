@@ -100,8 +100,8 @@ func (as *apiService) request(method string, endpoint string, params map[string]
 	}
 	if sign {
 		level.Debug(as.Logger).Log("queryString", q.Encode())
-		q.Add("signature", as.Signer.Sign([]byte(q.Encode())))
 		level.Debug(as.Logger).Log("signature", as.Signer.Sign([]byte(q.Encode())))
+		q.Add("signature", as.Signer.Sign([]byte(q.Encode())))
 	}
 	req.URL.RawQuery = q.Encode()
 
