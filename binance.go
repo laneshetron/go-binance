@@ -16,6 +16,8 @@ import (
 type Binance interface {
 	// Ping tests connectivity.
 	Ping() error
+        // ExchangeInfo
+        ExchangeInfo() (*ExchangeInfo, error)
 	// Time returns server time.
 	Time() (time.Time, error)
 	// OrderBook returns list of orders.
@@ -95,9 +97,47 @@ func (b *binance) Ping() error {
 	return b.Service.Ping()
 }
 
+// ExchangeInfo returns information for all tradeable symbols
+func (b *binance) ExchangeInfo() (*ExchangeInfo, error) {
+    return b.Service.ExchangeInfo()
+}
+
 // Time returns server time.
 func (b *binance) Time() (time.Time, error) {
 	return b.Service.Time()
+}
+
+type ExchangeInfo struct {
+    Timezone   string        `json:"timezone"`
+    ServerTime int64         `json:"serverTime"`
+    Symbols    []*SymbolInfo `json:"symbols"`
+}
+
+type SymbolInfo struct {
+    Symbol             string    `json:"symbol"`
+    Status             string    `json:"status"`
+    BaseAsset          string    `json:"baseAsset"`
+    BaseAssetPrecision int       `json:"baseAssetPrecision"`
+    QuoteAsset         string    `json:"quoteAsset"`
+    QuotePrecision     int       `json:"quotePrecision"`
+    OrderTypes         []string  `json:"orderTypes"`
+    IcebergAllowed     bool      `json:"icebergAllowed"`
+    Filters            []*Filter `json:"filters"`
+}
+
+type Filter struct {
+    FilterType       string  `json:"filterType"`
+    MinPrice         float64 `json:"minPrice"`
+    MaxPrice         float64 `json:"maxPrice"`
+    TickSize         float64 `json:"tickSize"`
+    MinQty           float64 `json:"minQty"`
+    MaxQty           float64 `json:"maxQty"`
+    StepSize         float64 `json:"stepSize"`
+    MinNotional      float64 `json:"minNotional"`
+    ApplyToMarket    bool    `json:"applyToMarket"`
+    AvgPriceMins     int     `json:"avgPriceMins"`
+    Limit            int     `json:"limit"`
+    MaxNumAlgoOrders int     `json:"maxNumAlgoOrders"`
 }
 
 // OrderBook represents Bids and Asks.
