@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-kit/kit/log/level"
 	"github.com/pkg/errors"
 )
 
