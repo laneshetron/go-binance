@@ -361,7 +361,7 @@ func (as *apiService) UserDataWebsocket(urwr UserDataWebsocketRequest) (chan *Ac
 					TakerCommision  int64   `json:"t"`
 					BuyerCommision  int64   `json:"b"`
 					SellerCommision int64   `json:"s"`
-					CanTrade        bool    `json:"T"`
+					//CanTrade        bool    `json:"T"`
 					CanWithdraw     bool    `json:"W"`
 					CanDeposit      bool    `json:"D"`
 					Balances        []struct {
@@ -390,7 +390,7 @@ func (as *apiService) UserDataWebsocket(urwr UserDataWebsocketRequest) (chan *Ac
 						TakerCommision:  rawAccount.TakerCommision,
 						BuyerCommision:  rawAccount.BuyerCommision,
 						SellerCommision: rawAccount.SellerCommision,
-						CanTrade:        rawAccount.CanTrade,
+						//CanTrade:        rawAccount.CanTrade,
 						CanWithdraw:     rawAccount.CanWithdraw,
 						CanDeposit:      rawAccount.CanDeposit,
 					},
