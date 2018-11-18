@@ -372,12 +372,12 @@ func (as *apiService) UserDataWebsocket(urwr UserDataWebsocketRequest) (chan *Ac
 				}{}
 				if err := json.Unmarshal(message, &rawAccount); err != nil {
 					level.Error(as.Logger).Log("wsUnmarshal", err, "body", string(message))
-					return
+					continue
 				}
 				t, err := timeFromUnixTimestampFloat(rawAccount.Time)
 				if err != nil {
 					level.Error(as.Logger).Log("wsUnmarshal", err, "body", rawAccount.Time)
-					return
+					continue
 				}
 
 				ae := &AccountEvent{
@@ -399,12 +399,12 @@ func (as *apiService) UserDataWebsocket(urwr UserDataWebsocketRequest) (chan *Ac
 					free, err := floatFromString(b.AvailableBalance)
 					if err != nil {
 						level.Error(as.Logger).Log("wsUnmarshal", err, "body", b.AvailableBalance)
-						return
+						continue
 					}
 					locked, err := floatFromString(b.Locked)
 					if err != nil {
 						level.Error(as.Logger).Log("wsUnmarshal", err, "body", b.Locked)
-						return
+						continue
 					}
 					ae.Balances = append(ae.Balances, &Balance{
 						Asset:  b.Asset,
