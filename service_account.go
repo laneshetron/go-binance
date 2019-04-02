@@ -29,13 +29,12 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 	params["symbol"] = or.Symbol
 	params["side"] = string(or.Side)
 	params["type"] = string(or.Type)
-	if len(params["timeInForce"]) > 0 {
+	if len(string(or.TimeInForce)) > 0 {
 		params["timeInForce"] = string(or.TimeInForce)
 	}
 	params["quantity"] = strconv.FormatFloat(or.Quantity, 'f', -1, 64)
-	price := strconv.FormatFloat(or.Price, 'f', -1, 64)
-	if len(price) > 0 {
-		params["price"] = price
+	if or.Price > 0 {
+		params["price"] = strconv.FormatFloat(or.Price, 'f', -1, 64)
 	}
 	params["timestamp"] = strconv.FormatInt(unixMillis(or.Timestamp), 10)
 	if or.NewClientOrderID != "" {
