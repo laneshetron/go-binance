@@ -33,8 +33,11 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 		params["timeInForce"] = string(or.TimeInForce)
 	}
 	params["quantity"] = strconv.FormatFloat(or.Quantity, 'f', -1, 64)
+	if or.Precision == 0 {
+		or.Precision = -1
+	}
 	if or.Price > 0 {
-		params["price"] = strconv.FormatFloat(or.Price, 'f', -1, 64)
+		params["price"] = strconv.FormatFloat(or.Price, 'f', or.Precision, 64)
 	}
 	params["timestamp"] = strconv.FormatInt(unixMillis(or.Timestamp), 10)
 	if or.NewClientOrderID != "" {

@@ -16,8 +16,8 @@ import (
 type Binance interface {
 	// Ping tests connectivity.
 	Ping() error
-        // ExchangeInfo
-        ExchangeInfo() (*ExchangeInfo, error)
+	// ExchangeInfo
+	ExchangeInfo() (*ExchangeInfo, error)
 	// Time returns server time.
 	Time() (time.Time, error)
 	// OrderBook returns list of orders.
@@ -99,7 +99,7 @@ func (b *binance) Ping() error {
 
 // ExchangeInfo returns information for all tradeable symbols
 func (b *binance) ExchangeInfo() (*ExchangeInfo, error) {
-    return b.Service.ExchangeInfo()
+	return b.Service.ExchangeInfo()
 }
 
 // Time returns server time.
@@ -108,36 +108,36 @@ func (b *binance) Time() (time.Time, error) {
 }
 
 type ExchangeInfo struct {
-    Timezone   string        `json:"timezone"`
-    ServerTime int64         `json:"serverTime"`
-    Symbols    []*SymbolInfo `json:"symbols"`
+	Timezone   string        `json:"timezone"`
+	ServerTime int64         `json:"serverTime"`
+	Symbols    []*SymbolInfo `json:"symbols"`
 }
 
 type SymbolInfo struct {
-    Symbol             string    `json:"symbol"`
-    Status             string    `json:"status"`
-    BaseAsset          string    `json:"baseAsset"`
-    BaseAssetPrecision int       `json:"baseAssetPrecision"`
-    QuoteAsset         string    `json:"quoteAsset"`
-    QuotePrecision     int       `json:"quotePrecision"`
-    OrderTypes         []string  `json:"orderTypes"`
-    IcebergAllowed     bool      `json:"icebergAllowed"`
-    Filters            []*Filter `json:"filters"`
+	Symbol             string    `json:"symbol"`
+	Status             string    `json:"status"`
+	BaseAsset          string    `json:"baseAsset"`
+	BaseAssetPrecision int       `json:"baseAssetPrecision"`
+	QuoteAsset         string    `json:"quoteAsset"`
+	QuotePrecision     int       `json:"quotePrecision"`
+	OrderTypes         []string  `json:"orderTypes"`
+	IcebergAllowed     bool      `json:"icebergAllowed"`
+	Filters            []*Filter `json:"filters"`
 }
 
 type Filter struct {
-    FilterType       string  `json:"filterType"`
-    MinPrice         string  `json:"minPrice"`
-    MaxPrice         string  `json:"maxPrice"`
-    TickSize         string  `json:"tickSize"`
-    MinQty           string  `json:"minQty"`
-    MaxQty           string  `json:"maxQty"`
-    StepSize         string  `json:"stepSize"`
-    MinNotional      string  `json:"minNotional"`
-    ApplyToMarket    bool    `json:"applyToMarket"`
-    AvgPriceMins     int     `json:"avgPriceMins"`
-    Limit            int     `json:"limit"`
-    MaxNumAlgoOrders int     `json:"maxNumAlgoOrders"`
+	FilterType       string `json:"filterType"`
+	MinPrice         string `json:"minPrice"`
+	MaxPrice         string `json:"maxPrice"`
+	TickSize         string `json:"tickSize"`
+	MinQty           string `json:"minQty"`
+	MaxQty           string `json:"maxQty"`
+	StepSize         string `json:"stepSize"`
+	MinNotional      string `json:"minNotional"`
+	ApplyToMarket    bool   `json:"applyToMarket"`
+	AvgPriceMins     int    `json:"avgPriceMins"`
+	Limit            int    `json:"limit"`
+	MaxNumAlgoOrders int    `json:"maxNumAlgoOrders"`
 }
 
 // OrderBook represents Bids and Asks.
@@ -306,6 +306,7 @@ type NewOrderRequest struct {
 	StopPrice        float64
 	IcebergQty       float64
 	Timestamp        time.Time
+	Precision        int
 }
 
 // ProcessedOrder represents data from processed order.
