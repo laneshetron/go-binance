@@ -17,7 +17,7 @@ import (
 // if necessary without need to replace Binance instance.
 type Service interface {
 	Ping() error
-        ExchangeInfo() (*ExchangeInfo, error)
+	ExchangeInfo() (*ExchangeInfo, error)
 	Time() (time.Time, error)
 	OrderBook(obr OrderBookRequest) (*OrderBook, error)
 	AggTrades(atr AggTradesRequest) ([]*AggTrade, error)

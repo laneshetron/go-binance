@@ -1,8 +1,8 @@
 package binance
 
 import (
-	"testing"
 	"context"
+	"testing"
 )
 
 func TestErrorHandler(t *testing.T) {

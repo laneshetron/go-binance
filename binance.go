@@ -463,10 +463,10 @@ type MyTradesRequest struct {
 // Trade represents data about trade.
 type Trade struct {
 	ID              int64
-	Price           float64
-	Qty             float64
-	Commission      float64
-	CommissionAsset string
+	Price           float64 `json:"price"`
+	Qty             float64 `json:"qty"`
+	Commission      float64 `json:"commission"`
+	CommissionAsset string  `json:"commissionAsset"`
 	Time            time.Time
 	IsBuyer         bool
 	IsMaker         bool

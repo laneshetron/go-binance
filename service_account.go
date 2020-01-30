@@ -29,6 +29,7 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 	params["symbol"] = or.Symbol
 	params["side"] = string(or.Side)
 	params["type"] = string(or.Type)
+	params["newOrderRespType"] = "FULL"
 	if len(string(or.TimeInForce)) > 0 {
 		params["timeInForce"] = string(or.TimeInForce)
 	}
@@ -65,10 +66,19 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 	}
 
 	rawOrder := struct {
-		Symbol        string  `json:"symbol"`
-		OrderID       int64   `json:"orderId"`
-		ClientOrderID string  `json:"clientOrderId"`
-		TransactTime  float64 `json:"transactTime"`
+		Symbol             string      `json:"symbol"`
+		OrderID            int64       `json:"orderId"`
+		ClientOrderID      string      `json:"clientOrderId"`
+		TransactTime       float64     `json:"transactTime"`
+		Price              float64     `json:"price"`
+		OrigQty            float64     `json:"origQty"`
+		ExecutedQty        float64     `json:"executedQty"`
+		CumulativeQuoteQty float64     `json:"cumulativeQuoteQty"`
+		Status             OrderStatus `json:"status"`
+		TimeInForce        TimeInForce `json:"timeInForce"`
+		Type               OrderType   `json:"type"`
+		Side               OrderSide   `json:"side"`
+		Fills              []Trade     `json:"fills"`
 	}{}
 	if err := json.Unmarshal(textRes, &rawOrder); err != nil {
 		return nil, errors.Wrap(err, "rawOrder unmarshal failed")
@@ -80,10 +90,19 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 	}
 
 	return &ProcessedOrder{
-		Symbol:        rawOrder.Symbol,
-		OrderID:       rawOrder.OrderID,
-		ClientOrderID: rawOrder.ClientOrderID,
-		TransactTime:  t,
+		Symbol:             rawOrder.Symbol,
+		OrderID:            rawOrder.OrderID,
+		ClientOrderID:      rawOrder.ClientOrderID,
+		TransactTime:       t,
+		Price:              rawOrder.Price,
+		OrigQty:            rawOrder.OrigQty,
+		ExecutedQty:        rawOrder.ExecutedQty,
+		CumulativeQuoteQty: rawOrder.CumulativeQuoteQty,
+		Status:             rawOrder.Status,
+		TimeInForce:        rawOrder.TimeInForce,
+		Type:               rawOrder.Type,
+		Side:               rawOrder.Side,
+		Fills:              rawOrder.Fills,
 	}, nil
 }
 
