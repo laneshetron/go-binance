@@ -70,10 +70,10 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 		OrderID            int64       `json:"orderId"`
 		ClientOrderID      string      `json:"clientOrderId"`
 		TransactTime       float64     `json:"transactTime"`
-		Price              float64     `json:"price"`
-		OrigQty            float64     `json:"origQty"`
-		ExecutedQty        float64     `json:"executedQty"`
-		CumulativeQuoteQty float64     `json:"cumulativeQuoteQty"`
+		Price              float64     `json:"price,string"`
+		OrigQty            float64     `json:"origQty,string"`
+		ExecutedQty        float64     `json:"executedQty,string"`
+		CumulativeQuoteQty float64     `json:"cumulativeQuoteQty,string"`
 		Status             OrderStatus `json:"status"`
 		TimeInForce        TimeInForce `json:"timeInForce"`
 		Type               OrderType   `json:"type"`

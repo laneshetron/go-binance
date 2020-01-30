@@ -463,9 +463,9 @@ type MyTradesRequest struct {
 // Trade represents data about trade.
 type Trade struct {
 	ID              int64
-	Price           float64 `json:"price"`
-	Qty             float64 `json:"qty"`
-	Commission      float64 `json:"commission"`
+	Price           float64 `json:"price,string"`
+	Qty             float64 `json:"qty,string"`
+	Commission      float64 `json:"commission,string"`
 	CommissionAsset string  `json:"commissionAsset"`
 	Time            time.Time
 	IsBuyer         bool
