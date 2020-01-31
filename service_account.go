@@ -33,7 +33,12 @@ func (as *apiService) NewOrder(or NewOrderRequest) (*ProcessedOrder, error) {
 	if len(string(or.TimeInForce)) > 0 {
 		params["timeInForce"] = string(or.TimeInForce)
 	}
-	params["quantity"] = strconv.FormatFloat(or.Quantity, 'f', -1, 64)
+	if or.Quantity > 0 {
+		params["quantity"] = strconv.FormatFloat(or.Quantity, 'f', -1, 64)
+	}
+	if or.QuoteOrderQty > 0 {
+		params["quoteOrderQty"] = strconv.FormatFloat(or.QuoteOrderQty, 'f', -1, 64)
+	}
 	if or.Precision == 0 {
 		or.Precision = -1
 	}
