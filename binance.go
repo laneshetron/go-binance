@@ -67,6 +67,7 @@ type Binance interface {
 	DepthWebsocket(dwr DepthWebsocketRequest) (chan *DepthEvent, chan struct{}, error)
 	KlineWebsocket(kwr KlineWebsocketRequest) (chan *KlineEvent, chan struct{}, error)
 	TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeEvent, chan struct{}, error)
+	BookTickersWebsocket() (chan *BookTickerEvent, chan struct{}, error)
 	UserDataWebsocket(udwr UserDataWebsocketRequest) (chan *AccountEvent, chan struct{}, error)
 }
 
@@ -282,11 +283,17 @@ func (b *binance) TickerAllPrices() ([]*PriceTicker, error) {
 
 // BookTicker represents book ticker data.
 type BookTicker struct {
-	Symbol   string
-	BidPrice float64
-	BidQty   float64
-	AskPrice float64
-	AskQty   float64
+	UpdateId int64   `json:"u"`
+	Symbol   string  `json:"s"`
+	BidPrice float64 `json:"b,string"`
+	BidQty   float64 `json:"B,string"`
+	AskPrice float64 `json:"a,string"`
+	AskQty   float64 `json:"A,string"`
+}
+
+type BookTickerEvent struct {
+	WSEvent
+	BookTicker
 }
 
 // TickerAllBooks returns tickers for all books.
@@ -589,6 +596,10 @@ type TradeWebsocketRequest struct {
 
 func (b *binance) TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeEvent, chan struct{}, error) {
 	return b.Service.TradeWebsocket(twr)
+}
+
+func (b *binance) BookTickersWebsocket() (chan *BookTickerEvent, chan struct{}, error) {
+	return b.Service.BookTickersWebsocket()
 }
 
 type UserDataWebsocketRequest struct {

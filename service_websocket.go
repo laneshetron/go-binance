@@ -329,6 +329,55 @@ func (as *apiService) TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeE
 	return aggtech, done, nil
 }
 
+func (as *apiService) BookTickersWebsocket() (chan *BookTickerEvent, chan struct{}, error) {
+	url := "wss://stream.binance.com:9443/ws/!bookTicker"
+	c, _, err := websocket.DefaultDialer.Dial(url, nil)
+	if err != nil {
+		log.Fatal("dial:", err)
+	}
+
+	done := make(chan struct{})
+	btech := make(chan *BookTickerEvent)
+
+	go func() {
+		defer c.Close()
+		defer close(done)
+		for {
+			select {
+			case <-as.Ctx.Done():
+				level.Info(as.Logger).Log("closing reader")
+				return
+			default:
+				_, message, err := c.ReadMessage()
+				if err != nil {
+					level.Error(as.Logger).Log("wsRead", err)
+					return
+				}
+
+				bt := BookTicker{}
+				if err := json.Unmarshal(message, &bt); err != nil {
+					level.Error(as.Logger).Log("wsUnmarshal", err, "body", string(message))
+					return
+				}
+
+				event := &BookTickerEvent{
+					WSEvent: WSEvent{
+						Type:   "bookTicker",
+						Time:   time.Now(),
+						Symbol: bt.Symbol,
+					},
+					BookTicker: bt,
+				}
+
+				btech <- event
+			}
+		}
+	}()
+
+	go as.exitHandler(c, done)
+	return btech, done, nil
+}
+
 func (as *apiService) UserDataWebsocket(urwr UserDataWebsocketRequest) (chan *AccountEvent, chan struct{}, error) {
 	url := fmt.Sprintf("wss://stream.binance.com:9443/ws/%s", urwr.ListenKey)
 	c, _, err := websocket.DefaultDialer.Dial(url, nil)
