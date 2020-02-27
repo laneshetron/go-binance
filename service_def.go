@@ -46,6 +46,7 @@ type Service interface {
 	DepthWebsocket(dwr DepthWebsocketRequest) (chan *DepthEvent, chan struct{}, error)
 	KlineWebsocket(kwr KlineWebsocketRequest) (chan *KlineEvent, chan struct{}, error)
 	TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeEvent, chan struct{}, error)
+	SymbolBookTickerWebsocket(sbtr SymbolBookTickerRequest) (chan *BookTickerEvent, chan struct{}, error)
 	BookTickersWebsocket() (chan *BookTickerEvent, chan struct{}, error)
 	UserDataWebsocket(udwr UserDataWebsocketRequest) (chan *AccountEvent, chan struct{}, error)
 }

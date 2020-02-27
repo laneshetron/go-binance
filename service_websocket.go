@@ -329,8 +329,17 @@ func (as *apiService) TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeE
 	return aggtech, done, nil
 }
 
+func (as *apiService) SymbolBookTickerWebsocket(sbtr SymbolBookTickerRequest) (chan *BookTickerEvent, chan struct{}, error) {
+	url := fmt.Sprintf("wss://stream.binance.com:9443/ws/%s@bookTicker", strings.ToLower(sbtr.Symbol))
+	return as.bookTickerWebsocket(url)
+}
+
 func (as *apiService) BookTickersWebsocket() (chan *BookTickerEvent, chan struct{}, error) {
 	url := "wss://stream.binance.com:9443/ws/!bookTicker"
+	return as.bookTickerWebsocket(url)
+}
+
+func (as *apiService) bookTickerWebsocket(url string) (chan *BookTickerEvent, chan struct{}, error) {
 	c, _, err := websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
 		log.Fatal("dial:", err)

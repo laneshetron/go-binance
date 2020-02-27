@@ -67,6 +67,7 @@ type Binance interface {
 	DepthWebsocket(dwr DepthWebsocketRequest) (chan *DepthEvent, chan struct{}, error)
 	KlineWebsocket(kwr KlineWebsocketRequest) (chan *KlineEvent, chan struct{}, error)
 	TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeEvent, chan struct{}, error)
+	SymbolBookTickerWebsocket(sbtr SymbolBookTickerRequest) (chan *BookTickerEvent, chan struct{}, error)
 	BookTickersWebsocket() (chan *BookTickerEvent, chan struct{}, error)
 	UserDataWebsocket(udwr UserDataWebsocketRequest) (chan *AccountEvent, chan struct{}, error)
 }
@@ -596,6 +597,14 @@ type TradeWebsocketRequest struct {
 
 func (b *binance) TradeWebsocket(twr TradeWebsocketRequest) (chan *AggTradeEvent, chan struct{}, error) {
 	return b.Service.TradeWebsocket(twr)
+}
+
+type SymbolBookTickerRequest struct {
+	Symbol string
+}
+
+func (b *binance) SymbolBookTickerWebsocket(sbtr SymbolBookTickerRequest) (chan *BookTickerEvent, chan struct{}, error) {
+	return b.Service.SymbolBookTickerWebsocket(sbtr)
 }
 
 func (b *binance) BookTickersWebsocket() (chan *BookTickerEvent, chan struct{}, error) {
