@@ -57,6 +57,7 @@ type apiService struct {
 	Signer Signer
 	Logger log.Logger
 	Ctx    context.Context
+	Client *http.Client
 }
 
 // NewAPIService creates instance of Service.
@@ -76,15 +77,12 @@ func NewAPIService(url, apiKey string, signer Signer, logger log.Logger, ctx con
 		Signer: signer,
 		Logger: logger,
 		Ctx:    ctx,
+		Client: &http.Client{},
 	}
 }
 
 func (as *apiService) request(method string, endpoint string, params map[string]string,
 	apiKey bool, sign bool) (*http.Response, error) {
-	transport := &http.Transport{}
-	client := &http.Client{
-		Transport: transport,
-	}
 
 	url := fmt.Sprintf("%s/%s", as.URL, endpoint)
 	req, err := http.NewRequest(method, url, nil)
@@ -107,7 +105,7 @@ func (as *apiService) request(method string, endpoint string, params map[string]
 	}
 	req.URL.RawQuery = q.Encode()
 
-	resp, err := client.Do(req)
+	resp, err := as.Client.Do(req)
 	if err != nil {
 		return nil, err
 	}
