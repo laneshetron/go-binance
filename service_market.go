@@ -3,6 +3,7 @@ package binance
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"strconv"
 	"time"
@@ -16,6 +17,12 @@ func (as *apiService) Ping() error {
 	if err != nil {
 		return err
 	}
+	defer func() {
+		// Drain response body
+		io.Copy(ioutil.Discard, response.Body)
+		response.Body.Close()
+	}()
+
 	fmt.Printf("%#v\n", response.StatusCode)
 	return nil
 }
