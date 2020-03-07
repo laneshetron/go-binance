@@ -503,10 +503,6 @@ func (as *apiService) TickerAllBooks() ([]*BookTicker, error) {
 		}
 		btc = append(btc, &BookTicker{
 			Symbol:   rawBookTicker.Symbol,
-			BidPrice: bp,
-			BidQty:   bqty,
-			AskPrice: ap,
-			AskQty:   aqty,
 		})
 	}
 	return btc, nil

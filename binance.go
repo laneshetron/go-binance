@@ -286,10 +286,6 @@ func (b *binance) TickerAllPrices() ([]*PriceTicker, error) {
 type BookTicker struct {
 	UpdateId int64   `json:"u"`
 	Symbol   string  `json:"s"`
-	BidPrice float64 `json:"b,string"`
-	BidQty   float64 `json:"B,string"`
-	AskPrice float64 `json:"a,string"`
-	AskQty   float64 `json:"A,string"`
 }
 
 type BookTickerEvent struct {
