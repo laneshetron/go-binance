@@ -485,22 +485,6 @@ func (as *apiService) TickerAllBooks() ([]*BookTicker, error) {
 
 	var btc []*BookTicker
 	for _, rawBookTicker := range rawBookTickers {
-		bp, err := strconv.ParseFloat(rawBookTicker.BidPrice, 64)
-		if err != nil {
-			return nil, errors.Wrap(err, "cannot parse TickerBookTickers.BidPrice")
-		}
-		bqty, err := strconv.ParseFloat(rawBookTicker.BidQty, 64)
-		if err != nil {
-			return nil, errors.Wrap(err, "cannot parse TickerBookTickers.BidQty")
-		}
-		ap, err := strconv.ParseFloat(rawBookTicker.AskPrice, 64)
-		if err != nil {
-			return nil, errors.Wrap(err, "cannot parse TickerBookTickers.AskPrice")
-		}
-		aqty, err := strconv.ParseFloat(rawBookTicker.AskQty, 64)
-		if err != nil {
-			return nil, errors.Wrap(err, "cannot parse TickerBookTickers.AskQty")
-		}
 		btc = append(btc, &BookTicker{
 			Symbol:   rawBookTicker.Symbol,
 		})
